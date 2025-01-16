@@ -1,4 +1,4 @@
-﻿@model IEnumerable<NorthWindProject_MVC.Models.Customers>
+﻿@model CustomerViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -10,44 +10,53 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<form asp-controller="Customers" asp-action="Index" method="get">
+    <p>
+        <select asp-for="CustomerContactTitle" asp-items="Model.ContactTitle">
+            <option value="">All</option>
+        </select>
+        Title: <input type="text" asp-for="SearchString" />
+        <input type="submit" value="Filter" />
+    </p>
+</form>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.CompanyName)
+                @Html.DisplayNameFor(model => model.Customers![0].CompanyName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ContactName)
+                @Html.DisplayNameFor(model => model.Customers![0].ContactName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ContactTitle)
+                @Html.DisplayNameFor(model => model.Customers![0].ContactTitle)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Address)
+                @Html.DisplayNameFor(model => model.Customers![0].Address)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.City)
+                @Html.DisplayNameFor(model => model.Customers![0].City)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Region)
+                @Html.DisplayNameFor(model => model.Customers![0].Region)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PostalCode)
+                @Html.DisplayNameFor(model => model.Customers![0].PostalCode)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Country)
+                @Html.DisplayNameFor(model => model.Customers![0].Country)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Phone)
+                @Html.DisplayNameFor(model => model.Customers![0].Phone)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Fax)
+                @Html.DisplayNameFor(model => model.Customers![0].Fax)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Customers!) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.CompanyName)

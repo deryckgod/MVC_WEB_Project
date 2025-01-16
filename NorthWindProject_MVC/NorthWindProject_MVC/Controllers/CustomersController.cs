@@ -20,9 +20,34 @@ namespace NorthWindProject_MVC.Controllers
         }
 
         // GET: Customers
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string customerContactTitle, string searchString)
         {
-            return View(await _context.Customers.ToListAsync());
+            IQueryable<string> contactTitleQuery = (IQueryable<string>)(from cus in _context.Customers
+                                                   orderby cus.ContactTitle
+                                                    select cus.ContactTitle);
+
+            var customers = from cus in _context.Customers
+                            select cus;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                //因為CustomerId是PK 所以用!確定不為 null 以跳過警告簡化程式
+                customers = customers.Where(cus => cus.CustomerId!.Contains(searchString));
+            }
+
+            if (!string.IsNullOrEmpty(customerContactTitle))
+            {
+                customers = customers.Where(x => x.ContactTitle == customerContactTitle);
+            }
+
+            var customerCTVM = new CustomerViewModel
+            {
+                ContactTitle = new SelectList(await contactTitleQuery.Distinct().ToListAsync()),
+                Customers = await customers.ToListAsync()
+            };
+
+
+            return View(customerCTVM);
         }
 
         // GET: Customers/Details/5
