@@ -56,13 +56,10 @@ namespace NorthWindProject_MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CustomerId,CompanyName,ContactName,ContactTitle,Address,City,Region,PostalCode,Country,Phone,Fax")] Customers customers)
         {
-            using var transaction = await _context.Database.BeginTransactionAsync();
-
             if (ModelState.IsValid)
             {
                 _context.Add(customers);
                 await _context.SaveChangesAsync();
-                await transaction.CommitAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(customers);
@@ -142,15 +139,12 @@ namespace NorthWindProject_MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            using var transaction = await _context.Database.BeginTransactionAsync();
-
             var customers = await _context.Customers.FindAsync(id);
             if (customers != null)
             {
                 _context.Customers.Remove(customers);
             }
             await _context.SaveChangesAsync();
-            await transaction.CommitAsync();
             return RedirectToAction(nameof(Index));
         }
 
