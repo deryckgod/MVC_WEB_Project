@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace NorthWindProject_MVC.Models;
 
-public partial class Customer
+public partial class Customers
 {
+    [Key]
     public string CustomerId { get; set; } = null!;
 
     public string CompanyName { get; set; } = null!;
@@ -27,7 +29,5 @@ public partial class Customer
 
     public string? Fax { get; set; }
 
-    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
-    public virtual ICollection<CustomerDemographic> CustomerTypes { get; set; } = new List<CustomerDemographic>();
 }
